@@ -1,0 +1,11 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace crm_pattern.core
+{
+    [Owned]
+    public class StringValue : Value
+    {
+        public string Value { get; set; }
+        public string Label { get; set; }
+    }
+}
