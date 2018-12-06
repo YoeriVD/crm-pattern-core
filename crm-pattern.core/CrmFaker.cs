@@ -4,6 +4,7 @@ namespace crm_pattern.core
 {
     public static class CrmFaker
     {
+        private static int Id = 0;
         public static Faker<AddressValue> Address { get; } =
             new Faker<AddressValue>()
                 .RuleFor(a => a.Street, f => f.Address.StreetName())
@@ -11,15 +12,12 @@ namespace crm_pattern.core
                 .RuleFor(a => a.Number, f => f.Address.BuildingNumber());
 
         public static Faker<ContactPerson> ContactPerson { get; } = new Faker<ContactPerson>()
-            .RuleFor(p => p.Id, f => f.Random.Number(min:1))
-            .RuleFor(p => p.Address, f => Address.Generate());
+            .RuleFor(p => p.Id, f => ++Id)
+            .RuleFor(p => p.Name, f => f.Person.FirstName)
+            .RuleFor(p => p.Surname, f => f.Person.LastName);
 
         public static Faker<YouthHostel> YouthHostel { get; } = new Faker<YouthHostel>()
-            .RuleFor(y => y.Address, f => Address.Generate())
-            .RuleFor(y => y.Name, f => new StringValue
-            {
-                Label = "Naam jeugdhuis", Value = f.Company.CompanyName()
-            })
-            .RuleFor(y => y.Id, f => f.Random.Number(min:1));
+            .RuleFor(y => y.Name, f => f.Company.CompanyName())
+            .RuleFor(y => y.Id, f => ++Id);
     }
 }

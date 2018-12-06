@@ -2,8 +2,8 @@
 {
     public class ContactPerson : Entity
     {
-        public StringValue Name { get; set; }
-        public StringValue Surname { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         public AddressValue Address { get; set; }
     }
 }

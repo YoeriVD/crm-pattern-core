@@ -19,8 +19,22 @@ namespace crm_pattern.core
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<YouthHostel>().HasData(CrmFaker.YouthHostel.Generate(100));
-            modelBuilder.Entity<ContactPerson>().HasData(CrmFaker.ContactPerson.Generate(100));
+            modelBuilder.Entity<YouthHostel>(y =>
+            {
+                foreach (var youthHostel in CrmFaker.YouthHostel.Generate(100))
+                {
+                    y.HasData(youthHostel);
+                    y.OwnsOne(e => e.Address).HasData(CrmFaker.Address.Generate());
+                }
+            });
+            modelBuilder.Entity<ContactPerson>(c =>
+            {
+                foreach (var contactPerson in CrmFaker.ContactPerson.Generate(100))
+                {
+                    c.HasData(contactPerson);
+                    c.OwnsOne(e => e.Address).HasData(CrmFaker.Address.Generate());
+                }
+            });
         }
     }
 }
