@@ -1,5 +1,8 @@
 ﻿@page
 @model MyApp.Namespace.ViewModel
 @{
+
+    @:EntityCount: @Model.Entities.Count();
+
     @Html.DisplayFor(m => m.Entities)
 }

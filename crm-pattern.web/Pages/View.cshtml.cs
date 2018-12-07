@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Bogus.Platform;
 using crm_pattern.core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,34 +18,28 @@ namespace MyApp.Namespace
         public ViewModel(CrmContext db)
         {
             _db = db;
+            _db.Database.EnsureCreated();
         }
 
         public IEnumerable<Entity> Entities { get; set; }
-        [BindProperty] public string Type { get; set; } = nameof(YouthHostel);
+        [BindProperty(SupportsGet = true)] public string Type { get; set; } = nameof(YouthHostel);
+
 
         public async Task OnGetAsync()
         {
-//            var possibleTypes = _db.GetType().GetAssembly().GetTypes()
-//                .Where(t => !string.IsNullOrWhiteSpace(t.Name))
-//                .Where(t => t.IsSubclassOf(typeof(Entity)))
-//                .ToDictionary(t => t.Name.ToLowerInvariant());
-//            var lowerType = Type.ToLowerInvariant();
-//
-//            if (!possibleTypes.ContainsKey(lowerType)) throw new ArgumentException();
-//            var type = possibleTypes[lowerType];
-//
-//
-//            var dbSetMethodInfo = typeof(DbContext).GetMethod("Set");
-//            var dbSet = dbSetMethodInfo.MakeGenericMethod(type).Invoke(_db, null);
-//
-//            var toListMethodInfo = typeof(EntityFrameworkQueryableExtensions).GetMethod("ToListAsync")
-//                .MakeGenericMethod(type);
-//            var toListMethod = (dynamic) toListMethodInfo.Invoke(dbSet, new[] {dbSet, default(CancellationToken)});
-//            Entities = (IEnumerable<Entity>) await toListMethod;
+            var possibleTypes = _db.GetType().GetAssembly().GetTypes()
+                .Where(t => !string.IsNullOrWhiteSpace(t.Name))
+                .Where(t => t.IsSubclassOf(typeof(Entity)))
+                .ToDictionary(t => t.Name.ToLowerInvariant());
+            var lowerType = Type.ToLowerInvariant();
 
-            if (Type == nameof(ContactPerson)) Entities = await _db.ContactPersons.ToListAsync();
+            if (!possibleTypes.ContainsKey(lowerType)) throw new ArgumentException();
+            var type = possibleTypes[lowerType];
 
-            if (Entities == null) Entities = await _db.YouthHostels.ToListAsync();
+
+            var set = _db.Set(type).Cast<Entity>();
+            var list = await set.ToListAsync();
+            Entities = list;
         }
     }
 }
