@@ -1,5 +1,14 @@
 ﻿@page
 @model MyApp.Namespace.DetailModel
 @{
-    @Html.DisplayFor(m => m.Entity)
+    <h1>Hello entity with @Model.Entity.GetMetaData().Fields.Length fields</h1>
+
+    foreach (var field in Model.Entity.GetMetaData().Fields)
+    {
+        if (field.Type == typeof(string))
+        {
+            <span>@field.Name</span>
+            <input type="text" value="@Model.Entity.GetExpander().ExpandFields()[field.Name]" id="@field.Name" name="@field.Name"/>
+        }
+    }
 }

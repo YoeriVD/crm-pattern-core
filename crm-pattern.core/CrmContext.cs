@@ -43,7 +43,9 @@ namespace crm_pattern.core
                     c.OwnsOne(e => e.Address).HasData(new
                     {
                         ContactPersonId = contactPerson.Id,
-                        address.Street, address.City, address.Number
+                        address.Street,
+                        address.City,
+                        address.Number
                     });
                 }
             });
@@ -52,9 +54,9 @@ namespace crm_pattern.core
 
     public static class CrmContextExtensions
     {
-        public static IQueryable<object> Set (this DbContext _context, Type t)
+        public static IQueryable<Entity> Set (this DbContext context, Type t)
         {
-            return (IQueryable<object>)_context.GetType().GetMethod("Set").MakeGenericMethod(t).Invoke(_context, null);
+            return (IQueryable<Entity>)context.GetType().GetMethod("Set").MakeGenericMethod(t).Invoke(context, null);
         }
     }
 }
