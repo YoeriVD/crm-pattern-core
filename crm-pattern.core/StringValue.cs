@@ -3,7 +3,7 @@
 namespace crm_pattern.core
 {
     [Owned]
-    public class StringValue : Value
+    public class StringValue
     {
         public string Value { get; set; }
         public string Label { get; set; }
