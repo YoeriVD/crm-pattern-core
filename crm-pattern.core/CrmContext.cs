@@ -24,7 +24,12 @@ namespace crm_pattern.core
                 foreach (var youthHostel in CrmFaker.YouthHostel.Generate(100))
                 {
                     y.HasData(youthHostel);
-                    y.OwnsOne(e => e.Address).HasData(CrmFaker.Address.Generate());
+                    var address = CrmFaker.Address.Generate();
+                    y.OwnsOne(e => e.Address).HasData(new
+                    {
+                        YouthHostelId = youthHostel.Id,
+                        address.Street, address.City, address.Number
+                    });
                 }
             });
             modelBuilder.Entity<ContactPerson>(c =>
@@ -32,7 +37,12 @@ namespace crm_pattern.core
                 foreach (var contactPerson in CrmFaker.ContactPerson.Generate(100))
                 {
                     c.HasData(contactPerson);
-                    c.OwnsOne(e => e.Address).HasData(CrmFaker.Address.Generate());
+                    var address = CrmFaker.Address.Generate();
+                    c.OwnsOne(e => e.Address).HasData(new
+                    {
+                        ContactPersonId = contactPerson.Id,
+                        address.Street, address.City, address.Number
+                    });
                 }
             });
         }
