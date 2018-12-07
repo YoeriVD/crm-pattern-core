@@ -51,12 +51,4 @@ namespace crm_pattern.core
             });
         }
     }
-
-    public static class CrmContextExtensions
-    {
-        public static IQueryable<Entity> Set (this DbContext context, Type t)
-        {
-            return (IQueryable<Entity>)context.GetType().GetMethod("Set").MakeGenericMethod(t).Invoke(context, null);
-        }
-    }
 }

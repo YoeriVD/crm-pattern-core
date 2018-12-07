@@ -1,8 +1,23 @@
 ﻿@page
+@using core
+@using NonFactors.Mvc.Grid
 @model MyApp.Namespace.ViewModel
 @{
 
     @:EntityCount: @Model.Entities.Count();
 
-    @Html.DisplayFor(m => m.Entities)
+    @(Html
+          .Grid(Model.Entities)
+          .Build(columns =>
+          {
+              foreach (var field in EntityMetaDataFactory.GetMetaData(Model.Type).Fields)
+              {
+                  columns.Add(field.GetExpression).Filterable(true).Sortable(true).Titled(field.Name);
+              }
+          })
+          .Empty("No data found")
+          .Filterable()
+          .Sortable()
+          .Pageable()
+          )
 }

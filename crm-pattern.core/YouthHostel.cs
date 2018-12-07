@@ -1,17 +1,14 @@
 ﻿namespace crm_pattern.core
 {
     public class YouthHostel : Entity
+            , IEntityMetaData
     {
         public string Name { get; set; }
         public AddressValue Address { get; set; }
-        public override IEntityMetaData GetMetaData()
+        IEntityFieldMetaData[] IEntityMetaData.Fields => new IEntityFieldMetaData[]
         {
-            return new NullEntityMetaData();
-        }
-
-        public override IEntityExcpander GetExpander()
-        {
-            return new NullEntityExpander();
-        }
+            new EntityFieldMetaData<YouthHostel>(z=> z.Name),
+            new EntityFieldMetaData<YouthHostel>(z=> z.Address),
+        };
     }
 }

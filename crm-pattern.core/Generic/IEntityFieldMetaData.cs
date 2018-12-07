@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace crm_pattern.core
 {
@@ -6,5 +7,6 @@ namespace crm_pattern.core
     {
         string Name { get; }
         Type Type { get; }
+        Expression<Func<Entity, object>> GetExpression { get; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace crm_pattern.core
 {
-    public interface IEntityMetaData
+    public interface IEntityMetaData 
     {
         IEntityFieldMetaData[] Fields { get; }
+
     }
 }

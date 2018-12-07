@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace crm_pattern.core
 {
@@ -6,22 +6,5 @@ namespace crm_pattern.core
     {
         public int Id { get; set; }
         public string Type => GetType().Name;
-
-        public abstract IEntityMetaData GetMetaData();
-
-        public abstract IEntityExcpander GetExpander();
-    }
-
-    public interface IEntityExcpander
-    {
-        Dictionary<string, object> ExpandFields();
-    }
-
-    public class NullEntityExpander : IEntityExcpander
-    {
-        public Dictionary<string, object> ExpandFields()
-        {
-            return new Dictionary<string, object>();
-        }
     }
 }

@@ -3,30 +3,17 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace crm_pattern.core
 {
-    public class ContactPerson : Entity, IEntityMetaData,IEntityExcpander
+    public class ContactPerson : Entity, 
+                            IEntityMetaData,
+                            IEntityExpander
     {
         public string Name { get; set; }
         public string Surname { get; set; }
         public AddressValue Address { get; set; }
 
-        public override IEntityMetaData GetMetaData()
-        {
-            return this;
-        }
+        
 
-        public override IEntityExcpander GetExpander()
-        {
-            return this;
-        }
-
-        IEntityFieldMetaData[] IEntityMetaData.Fields => new IEntityFieldMetaData[]
-        {
-            new EntityFieldMetaData(){ Name = nameof(Name), Type = typeof(string)},
-            new EntityFieldMetaData(){ Name = nameof(Surname), Type = typeof(string)},
-            new EntityFieldMetaData(){ Name = nameof(Address), Type = typeof(AddressValue)}
-        };
-
-        Dictionary<string, object> IEntityExcpander.ExpandFields()
+        Dictionary<string, object> IEntityExpander.ExpandFields()
         {
             return new Dictionary<string, object>()
             {
@@ -35,5 +22,12 @@ namespace crm_pattern.core
                 {nameof(Address), Address},
             };
         }
+
+        public IEntityFieldMetaData[] Fields => new IEntityFieldMetaData[]
+        {
+            new EntityFieldMetaData<ContactPerson>(z => z.Name),
+            new EntityFieldMetaData<ContactPerson>(z => z.Surname),
+            new EntityFieldMetaData<ContactPerson>(z => z.Address),
+        };
     }
 }
