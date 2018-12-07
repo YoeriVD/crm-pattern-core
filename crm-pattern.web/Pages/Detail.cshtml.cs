@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Bogus.Platform;
@@ -26,17 +28,7 @@ namespace MyApp.Namespace
 
         public async Task OnGetAsync()
         {
-            var possibleTypes = _db.GetType().GetAssembly().GetTypes()
-                .Where(t => !string.IsNullOrWhiteSpace(t.Name))
-                .Where(t => t.IsSubclassOf(typeof(Entity)))
-                .ToDictionary(t => t.Name.ToLowerInvariant());
-            var lowerType = Type.ToLowerInvariant();
-
-            if (!possibleTypes.ContainsKey(lowerType)) throw new ArgumentException();
-            var type = possibleTypes[lowerType];
-
-
-            var set = _db.Set(type).Cast<Entity>();
+            var set = EntityMetaDataFactory.Set(_db, Type);
             var entity = await set.FirstOrDefaultAsync(t => t.Id == Id);
             Entity = entity;
         }
