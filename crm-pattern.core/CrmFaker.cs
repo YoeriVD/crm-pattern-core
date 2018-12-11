@@ -4,9 +4,9 @@ namespace crm_pattern.core
 {
     public static class CrmFaker
     {
-        private static int ContactId = 0;
-        private static int YouthHostelId = 0;
-        
+        private static int ContactId;
+        private static int YouthHostelId;
+
         public static Faker<AddressValue> Address { get; } =
             new Faker<AddressValue>()
                 .RuleFor(a => a.Street, f => f.Address.StreetName())

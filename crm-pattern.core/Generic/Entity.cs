@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace crm_pattern.core
+﻿namespace crm_pattern.core
 {
     public abstract class Entity
     {

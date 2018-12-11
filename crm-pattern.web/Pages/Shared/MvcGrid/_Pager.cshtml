@@ -1,10 +1,8 @@
-﻿@using NonFactors.Mvc.Grid;
-
-@model IGridPager
+﻿@model NonFactors.Mvc.Grid.IGridPager
 @{
-    Int32 totalPages = Model.TotalPages;
-    Int32 currentPage = Model.CurrentPage;
-    Int32 firstDisplayPage = Model.FirstDisplayPage;
+    var totalPages = Model.TotalPages;
+    var currentPage = Model.CurrentPage;
+    var firstDisplayPage = Model.FirstDisplayPage;
 }
 
 <div class="mvc-grid-pager @Model.CssClasses" data-show-page-sizes="@Model.ShowPageSizes">
@@ -20,7 +18,7 @@
             <button type="button" class="disabled" tabindex="-1">&laquo;</button>
             <button type="button" class="disabled" tabindex="-1">&lsaquo;</button>
         }
-        for (Int32 page = firstDisplayPage; page <= totalPages && page < firstDisplayPage + Model.PagesToDisplay; page++)
+        for (var page = firstDisplayPage; page <= totalPages && page < firstDisplayPage + Model.PagesToDisplay; page++)
         {
             if (page == currentPage)
             {
@@ -47,7 +45,7 @@
                 @if (Model.PageSizes.Count > 0)
                 {
                     <select class="mvc-grid-pager-rows">
-                        @foreach (KeyValuePair<Int32, String> size in Model.PageSizes)
+                        @foreach (var size in Model.PageSizes)
                         {
                             if (Model.RowsPerPage == size.Key)
                             {
@@ -62,17 +60,17 @@
                 }
                 else
                 {
-                    <input class="mvc-grid-pager-rows" value="@Model.RowsPerPage" />
+                    <input class="mvc-grid-pager-rows" value="@Model.RowsPerPage"/>
                 }
             </div>
         }
         else
         {
-            <input class="mvc-grid-pager-rows" type="hidden" value="@Model.RowsPerPage" />
+            <input class="mvc-grid-pager-rows" type="hidden" value="@Model.RowsPerPage"/>
         }
     }
     else
     {
-        <input class="mvc-grid-pager-rows" type="hidden" value="@Model.RowsPerPage" />
+        <input class="mvc-grid-pager-rows" type="hidden" value="@Model.RowsPerPage"/>
     }
 </div>

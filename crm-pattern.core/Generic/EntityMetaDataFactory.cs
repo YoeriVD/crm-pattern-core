@@ -15,17 +15,19 @@ namespace crm_pattern.core
                 t = StringToType(t as string);
                 return Activator.CreateInstance(t as Type) as IEntityExpander;
             }
+
             return new NullEntityExpander();
         }
 
         public static IEntityMetaData GetMetaData(object t)
         {
-            if(t is IEntityFieldMetaData) return t as IEntityMetaData;
+            if (t is IEntityFieldMetaData) return t as IEntityMetaData;
             if (t is string)
             {
                 t = StringToType(t as string);
                 return Activator.CreateInstance(t as Type) as IEntityMetaData;
             }
+
             return new NullEntityMetaData();
         }
 
@@ -33,7 +35,8 @@ namespace crm_pattern.core
         {
             if (t is Entity) return Set(context, t.GetType());
             if (t is string) return Set(context, StringToType(t as string));
-            return (IQueryable<Entity>)context.GetType().GetMethod("Set").MakeGenericMethod(t as Type).Invoke(context, null);
+            return (IQueryable<Entity>) context.GetType().GetMethod("Set").MakeGenericMethod(t as Type)
+                .Invoke(context, null);
         }
 
         private static Type StringToType(string s)

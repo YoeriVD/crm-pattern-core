@@ -1,5 +1,5 @@
 ﻿@page
-@using core
+@using crm_pattern.core
 @model MyApp.Namespace.DetailModel
 @{
     <h1>Hello entity with @EntityMetaDataFactory.GetMetaData(Model.Entity).Fields.Length fields</h1>
@@ -9,7 +9,7 @@
         if (field.Type == typeof(string))
         {
             <span>@field.Name</span>
-            <input type="text" value="@EntityMetaDataFactory.GetExpander(Model.Entity).ExpandFields()[field.Name]" id="@field.Name" name="@field.Name" />
+            <input type="text" value="@EntityMetaDataFactory.GetExpander(Model.Entity).ExpandFields()[field.Name]" id="@field.Name" name="@field.Name"/>
         }
     }
 }

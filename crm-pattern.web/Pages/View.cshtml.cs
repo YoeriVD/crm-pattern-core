@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Bogus.Platform;
 using crm_pattern.core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,7 +23,6 @@ namespace MyApp.Namespace
 
         public async Task OnGetAsync()
         {
-
             var set = EntityMetaDataFactory.Set(_db, Type);
             var list = await set.ToListAsync();
             Entities = list;
