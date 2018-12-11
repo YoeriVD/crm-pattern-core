@@ -14,10 +14,24 @@
               {
                   columns.Add(field.GetExpression).Filterable(true).Sortable(true).Titled(field.Name);
               }
+              columns.Add(model => $"<button data-id=\"{model.Id}\">Edit</button>").Encoded(false);
           })
           .Empty("No data found")
           .Filterable()
           .Sortable()
           .Pageable()
+          .Css("table table-hover")
           )
+}
+@section Scripts{
+    <script>
+        $('.mvc-grid button').on('click',
+            function(e) {
+                const btn = e.target;
+                const id = btn.getAttribute('data-id');
+                console.log(btn, id);
+                const type = "@Model.Type";
+                window.location = `/Detail?type=${type}&id=${id}`
+            });
+    </script>
 }
