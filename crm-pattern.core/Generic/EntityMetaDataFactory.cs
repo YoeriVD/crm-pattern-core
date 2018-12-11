@@ -5,38 +5,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace crm_pattern.core
 {
-    public class EntityMetaDataFactory
+    public static class EntityMetaDataFactory
     {
         public static IEntityExpander GetExpander(object t)
         {
-            if (t is IEntityExpander) return t as IEntityExpander;
-            if (t is string)
+            switch (t)
             {
-                t = StringToType(t as string);
-                return Activator.CreateInstance(t as Type) as IEntityExpander;
+                case IEntityExpander _:
+                    return t as IEntityExpander;
+                case string _:
+                    t = StringToType(t as string);
+                    return Activator.CreateInstance(t as Type) as IEntityExpander;
+                default:
+                    return new NullEntityExpander();
             }
-
-            return new NullEntityExpander();
         }
 
         public static IEntityMetaData GetMetaData(object t)
         {
-            if (t is IEntityFieldMetaData) return t as IEntityMetaData;
-            if (t is string)
+            switch (t)
             {
-                t = StringToType(t as string);
-                return Activator.CreateInstance(t as Type) as IEntityMetaData;
+                case IEntityFieldMetaData _:
+                    return t as IEntityMetaData;
+                case string _:
+                    t = StringToType(t as string);
+                    return Activator.CreateInstance(t as Type) as IEntityMetaData;
+                default:
+                    return new NullEntityMetaData();
             }
-
-            return new NullEntityMetaData();
         }
 
         public static IQueryable<Entity> Set(DbContext context, object t)
         {
-            if (t is Entity) return Set(context, t.GetType());
-            if (t is string) return Set(context, StringToType(t as string));
-            return (IQueryable<Entity>) context.GetType().GetMethod("Set").MakeGenericMethod(t as Type)
-                .Invoke(context, null);
+            switch (t)
+            {
+                case Entity _:
+                    return Set(context, t.GetType());
+                case string _:
+                    return Set(context, StringToType(t as string));
+                default:
+                    return (IQueryable<Entity>) context.GetType().GetMethod("Set").MakeGenericMethod(t as Type)
+                        .Invoke(context, null);
+            }
         }
 
         private static Type StringToType(string s)
